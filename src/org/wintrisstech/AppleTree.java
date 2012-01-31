@@ -29,6 +29,10 @@ public class AppleTree extends JComponent implements MouseListener, ActionListen
     private Image weather;
     private Image apple;
     private Image basket;
+    private int[] applex = new int[10];
+    private int[] appley = new int[10];
+    private int applenumber = 0;
+    private boolean[] applefalling = new boolean[10];
     
     private int weatherX = 530;
 
@@ -49,6 +53,26 @@ public class AppleTree extends JComponent implements MouseListener, ActionListen
 
     public AppleTree() throws IOException
     {
+        applex[0] = 150;
+        appley[0] = 220;
+        applex[1] = 220;
+        appley[1] = 310;
+        applex[2] = 410;
+        appley[2] = 190;
+        applex[3] = 200;
+        appley[3] = 100;
+        applex[4] = 300;
+        appley[4] = 120;
+        applex[5] = 400;
+        appley[5] = 230;
+        applex[6] = 100;
+        appley[6] = 190;
+        applex[7] = 450;
+        appley[7] = 260;
+        applex[8] = 400;
+        appley[8] = 120;
+        applex[9] = 300;
+        appley[9] = 200;
         tree = ImageIO.read(getClass().getResource("PeterM_Tree.png"));
         background = ImageIO.read(getClass().getResource("ryanlerch_grassy_horizon_(gradient).png"));
         weather = ImageIO.read(getClass().getResource("Weather.png"));
@@ -65,9 +89,15 @@ public class AppleTree extends JComponent implements MouseListener, ActionListen
     @Override
     protected void paintComponent(Graphics g)
     {
+        
         g.drawImage(background, 0, 0, 800, 600, null);
         g.drawImage(weather, weatherX, -50, 350, 437 * 350 / 800, null);
         g.drawImage(tree, 40, 30, 712 * 550 / 800, 550, null);
+        g.drawImage(apple, 300, 300, 20, 20, null);
+        for (int i = 0; i < 10; i++)
+        {
+            g.drawImage(apple, applex[i], appley[i], 20, 20, null);
+        }
     }
 
     @Override
@@ -83,6 +113,8 @@ public class AppleTree extends JComponent implements MouseListener, ActionListen
     @Override
     public void mouseReleased(MouseEvent me)
     {
+        applefalling[applenumber] = true;
+        applenumber++;
     }
 
     @Override
@@ -99,6 +131,13 @@ public class AppleTree extends JComponent implements MouseListener, ActionListen
     public void actionPerformed(ActionEvent ae)
     {
         weatherX -= 1;
+        for(int apples = 0; apples < 10; apples++)
+        {
+            if(appley[apples] < 550 && applefalling[apples] == true)
+            {
+                appley[apples] = appley[apples] + 8;
+            }
+        }
         repaint();
     }
 }
